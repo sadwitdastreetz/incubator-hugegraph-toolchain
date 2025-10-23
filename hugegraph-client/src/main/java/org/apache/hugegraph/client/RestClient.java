@@ -49,7 +49,7 @@ public class RestClient extends AbstractRestClient {
     private Version apiVersion = null;
     @Setter
     @Getter
-    private boolean supportGs = false;
+    private boolean supportGs = true;
 
     public RestClient(String url, String username, String password, int timeout) {
         super(url, username, password, timeout * SECOND);
@@ -113,7 +113,8 @@ public class RestClient extends AbstractRestClient {
 
     @Override
     public RestResult get(String path, String id) {
-        return super.get(supportGs ? path : removeDefaultGsPrefix(path), id);
+        //return super.get(supportGs ? path : removeDefaultGsPrefix(path), id);
+        return super.get(path, id);
     }
 
     public RestResult getVersions(String path) {
@@ -148,7 +149,8 @@ public class RestClient extends AbstractRestClient {
 
     @Override
     public RestResult put(String path, String id, Object object) {
-        return super.put(supportGs ? path : removeDefaultGsPrefix(path), id, object);
+        //return super.put(supportGs ? path : removeDefaultGsPrefix(path), id, object);
+        return super.put(path, id, object);
     }
 
     @Override
@@ -159,7 +161,9 @@ public class RestClient extends AbstractRestClient {
 
     @Override
     public RestResult put(String path, String id, Object object, Map<String, Object> params) {
-        return super.put(supportGs ? path : removeDefaultGsPrefix(path), id, object,
+        //return super.put(supportGs ? path : removeDefaultGsPrefix(path), id, object,
+        //                 params);
+        return super.put(path, id, object,
                          params);
     }
 
