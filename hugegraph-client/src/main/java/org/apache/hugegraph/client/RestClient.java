@@ -19,6 +19,7 @@ package org.apache.hugegraph.client;
 
 import java.util.Map;
 
+import org.apache.hugegraph.driver.VersionManager;
 import org.apache.hugegraph.exception.ServerException;
 import org.apache.hugegraph.rest.AbstractRestClient;
 import org.apache.hugegraph.rest.ClientException;
@@ -39,6 +40,7 @@ import lombok.Setter;
 public class RestClient extends AbstractRestClient {
 
     private static final int SECOND = 1000;
+    private final String version = new VersionManager(this).getCoreVersion();;
 
     static {
         SimpleModule module = new SimpleModule();
@@ -49,7 +51,7 @@ public class RestClient extends AbstractRestClient {
     private Version apiVersion = null;
     @Setter
     @Getter
-    private boolean supportGs = true;
+    private boolean supportGs = VersionUtil.gte(version, "1.7.0");
 
     public RestClient(String url, String username, String password, int timeout) {
         super(url, username, password, timeout * SECOND);
@@ -113,8 +115,7 @@ public class RestClient extends AbstractRestClient {
 
     @Override
     public RestResult get(String path, String id) {
-        //return super.get(supportGs ? path : removeDefaultGsPrefix(path), id);
-        return super.get(path, id);
+        return super.get(supportGs ? path : removeDefaultGsPrefix(path), id);
     }
 
     public RestResult getVersions(String path) {
@@ -149,8 +150,7 @@ public class RestClient extends AbstractRestClient {
 
     @Override
     public RestResult put(String path, String id, Object object) {
-        //return super.put(supportGs ? path : removeDefaultGsPrefix(path), id, object);
-        return super.put(path, id, object);
+        return super.put(supportGs ? path : removeDefaultGsPrefix(path), id, object);
     }
 
     @Override
@@ -161,9 +161,7 @@ public class RestClient extends AbstractRestClient {
 
     @Override
     public RestResult put(String path, String id, Object object, Map<String, Object> params) {
-        //return super.put(supportGs ? path : removeDefaultGsPrefix(path), id, object,
-        //                 params);
-        return super.put(path, id, object,
+        return super.put(supportGs ? path : removeDefaultGsPrefix(path), id, object,
                          params);
     }
 
