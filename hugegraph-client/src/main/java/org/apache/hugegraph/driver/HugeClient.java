@@ -19,6 +19,8 @@ package org.apache.hugegraph.driver;
 
 import java.io.Closeable;
 
+import lombok.Getter;
+
 import org.apache.hugegraph.client.RestClient;
 import org.apache.hugegraph.rest.ClientException;
 import org.apache.hugegraph.rest.RestClientConfig;
@@ -41,8 +43,9 @@ public class HugeClient implements Closeable {
     static {
         ClientVersion.check();
     }
-
+    @Getter
     protected String graphSpaceName;
+    @Getter
     protected String graphName;
     private final boolean borrowedClient;
     private final RestClient client;
@@ -173,7 +176,7 @@ public class HugeClient implements Closeable {
         //       0.81 equals to the {latest_api_version} +10
         VersionUtil.check(apiVersion, "0.38", "0.81", "hugegraph-api in server");
         this.client.apiVersion(apiVersion);
-        boolean supportGs = VersionUtil.gte(this.version.getCoreVersion(), "1.7.0");
+        boolean supportGs = true;
         this.client.setSupportGs(supportGs);
     }
 
