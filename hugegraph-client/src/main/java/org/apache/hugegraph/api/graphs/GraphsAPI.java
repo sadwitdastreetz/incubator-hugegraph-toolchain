@@ -136,9 +136,19 @@ public class GraphsAPI extends API {
     }
 
     public void clear(String graph, String message) {
-        this.client.delete(joinPath(this.path(), graph, CLEAR),
-                           ImmutableMap.of(CONFIRM_MESSAGE, message));
+        clear(null, graph, message);
     }
+
+    public void clear(String graphSpace, String graph, String message) {
+        if (graphSpace == null) {
+            this.client.delete(joinPath(this.path(), graph, CLEAR),
+                               ImmutableMap.of(CONFIRM_MESSAGE, message));
+        } else {
+            this.client.delete(joinPath(this.path(), graphSpace, graph, CLEAR),
+                               ImmutableMap.of(CONFIRM_MESSAGE, message));
+        }
+    }
+
 
     public Map<String, String> update(String name, String nickname) {
         Map<String, String> actionMap = new HashMap<>();

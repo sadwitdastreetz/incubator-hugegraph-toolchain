@@ -39,6 +39,7 @@ public class LoadTest {
 
     protected static final String CONFIG_PATH_PREFIX = "target/test-classes";
     protected static final String GRAPH = "hugegraph";
+    protected static final String GRAPH_SPACE = "DEFAULT";
     protected static final String SERVER = "127.0.0.1";
     protected static final int PORT = 8080;
     protected static final int HTTPS_PORT = 8443;
@@ -48,14 +49,16 @@ public class LoadTest {
     protected static final String HTTPS_PROTOCOL = "https";
     protected static final String TRUST_STORE_PATH = "assembly/travis/conf/hugegraph.truststore";
     protected static final String FILE_URL = CommonUtil.PREFIX + "hugegraph.truststore";
-    protected static final HugeClient CLIENT = HugeClient.builder(URL, GRAPH).build();
+    protected static final HugeClient CLIENT = HugeClient.builder(URL, GRAPH)
+                                                         .configUser("admin", "pa")
+                                                         .build();
 
     public static String configPath(String fileName) {
         return Paths.get(CONFIG_PATH_PREFIX, fileName).toString();
     }
 
     public static void clearServerData() {
-        CLIENT.graphs().clearGraph(GRAPH, CONFIRM_CLEAR);
+        CLIENT.graphs().clearGraph(GRAPH_SPACE, GRAPH, CONFIRM_CLEAR);
     }
 
     public static void clearAndClose(HugeClient httpsClient, String graph) {
