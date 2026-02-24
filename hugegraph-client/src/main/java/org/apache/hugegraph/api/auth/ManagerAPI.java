@@ -43,7 +43,6 @@ public class ManagerAPI extends AuthAPI {
         Map<String, Object> params = new HashMap<>();
         params.put("user", user);
         params.put("type", type);
-        params.put("graphspace", graphSpace);
         this.client.delete(this.path(), params);
     }
 
@@ -51,7 +50,6 @@ public class ManagerAPI extends AuthAPI {
 
         Map<String, Object> params = new HashMap<>();
         params.put("type", type);
-        params.put("graphspace", graphSpace);
 
         RestResult result = this.client.get(this.path(), params);
 
@@ -62,7 +60,6 @@ public class ManagerAPI extends AuthAPI {
 
         Map<String, Object> params = new HashMap<>();
         params.put("type", type);
-        params.put("graphspace", graphSpace);
 
         String path = this.path() + PATH_SPLITOR + "check";
         RestResult result = this.client.get(path, params);
@@ -74,7 +71,6 @@ public class ManagerAPI extends AuthAPI {
                                     String graph) {
         String path = joinPath(this.path(), "default");
         Map<String, Object> params = new HashMap<>();
-        params.put("graphspace", graphSpace);
         params.put("role", role);
         if (StringUtils.isNotEmpty(graph)) {
             params.put("graph", graph);
